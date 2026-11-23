@@ -1,0 +1,32 @@
+name: Record genuine browser demonstration (free CI)
+on:
+  push:
+    paths:
+      - 'scripts/record_genuine_demo.py'
+      - '.github/workflows/capture-demo.yml'
+  workflow_dispatch:
+permissions: {contents: read}
+jobs:
+  capture:
+    if: github.repository == 'ilhamraduanbis-source/kanecli-proofsafe-2026'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - run: npm test
+      - name: Install unmodified Playwright Chromium runtime
+        run: |
+          python3 -m pip install --disable-pip-version-check playwright
+          python3 -m playwright install --with-deps chromium
+      - name: Record genuine browser actions and original screenshots
+        run: python3 scripts/record_genuine_demo.py
+      - name: Keep the original Chrome footage
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: proofsafe-genuine-chromium-video
+          path: evidence/browser-demo/
+          if-no-files-found: warn
+          retention-days: 14
