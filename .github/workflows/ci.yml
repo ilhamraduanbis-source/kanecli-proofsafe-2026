@@ -1,0 +1,27 @@
+name: ProofSafe unit and Chromium smoke tests
+on: [push, pull_request]
+permissions: {contents: read}
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - name: Run 10 zero-cost deterministic tests
+        run: npm test
+      - name: Install Playwright browser test dependencies
+        run: |
+          python3 -m pip install --disable-pip-version-check playwright
+          python3 -m playwright install --with-deps chromium
+      - name: Run real Chromium acceptance test
+        run: python3 scripts/browser_smoke.py
+      - name: Archive true browser evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: proofsafe-browser
+          path: docs/browser-qa-local.png
+          retention-days: 7
+          if-no-files-found: warn

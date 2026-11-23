@@ -1,0 +1,14 @@
+{
+  "name": "kanecli-proofsafe-2026",
+  "version": "1.0.0",
+  "description": "Standalone local CSV preflight with evidence backed AI browser QA",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test test/*.test.mjs"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  }
+}

@@ -1,0 +1,11 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="ProofSafe QA: free, offline CSV import checks and verifiable evidence"><title>ProofSafe QA — evidence-first CSV preflight</title><link rel="stylesheet" href="./src/styles.css"></head>
+<body><main>
+<header><p class="eyebrow">PROOFSAFE / KANECLI CHALLENGE 2026</p><h1>Test the claim. Keep the evidence.</h1><p class="intro">A zero-charge CSV preflight for small import teams. Checks records locally; a passing validation does not establish an order or payment.</p></header>
+<section class="layout"><div class="panel"><h2>1 · Import specimen</h2><label for="csv">CSV data (synthetic or your own only)</label><textarea id="csv" spellcheck="false" aria-describedby="format">invoice_id,amount,currency
+INV-001,150,MYR
+INV-002,75,MYR</textarea><p id="format" class="hint">Expected: invoice_id, amount, currency. Nothing is uploaded.</p><div class="buttons"><button id="check">Validate locally</button><button id="sample" class="secondary">Reset sample</button><button id="bad" class="secondary">Load failing case</button></div><p id="status" role="status" aria-live="polite">Ready. No validation has run yet.</p></div>
+<div class="panel"><h2>2 · Genuine output</h2><div class="stats"><div><strong id="rows">0</strong><span>records checked</span></div><div><strong id="issues">0</strong><span>issues detected</span></div><div><strong>RM0</strong><span>verified revenue</span></div></div><ol id="findings" aria-label="Validation findings"><li>Run the preflight to see evidence.</li></ol><button id="download" class="secondary" disabled>Export reproducible JSON</button><p class="hint">Local validation is not official invoice acceptance or payment.</p></div></section>
+<section class="panel about"><h2>3 · What KaneCLI tests</h2><p>The AI browser testing agent checks passing and failing data flows, interface behavior and evidence export. Actual failed tests must never be reported as passes.</p><p class="hint">No bank, wallet, or paid API integration.</p></section>
+<footer>Local-first · Synthetic demonstration data · No sign-in · No funds handled</footer>
+</main><script type="module" src="./src/app.mjs"></script></body></html>

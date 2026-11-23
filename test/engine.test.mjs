@@ -1,0 +1,12 @@
+import{test}from'node:test';import assert from'node:assert/strict';
+import{preflight,SAMPLE,INVALID}from'../src/engine.mjs';
+test('clean synthetic CSV passes',()=>{const r=preflight(SAMPLE);assert.equal(r.ok,true);assert.equal(r.rows,2);assert.equal(r.issues.length,0)});
+test('negative or NaN amount and duplicate ID rejected',()=>{const r=preflight(INVALID);assert.equal(r.ok,false);assert.ok(r.issues.some(x=>x.includes('amount')));assert.ok(r.issues.some(x=>x.includes('duplicate invoice ID')))});
+test('input not included in response',()=>{const r=preflight('invoice_id,amount,currency\nXYZ,20,MYR');assert.equal(r.ok,true);assert.ok(!('input'in r))});
+test('missing headers rejected',()=>{const r=preflight('foo,bar\na,b');assert.equal(r.ok,false);assert.equal(r.issues.filter(x=>x.includes('Missing required')).length,3)});
+test('blank input fails closed',()=>assert.equal(preflight(' ').ok,false));
+test('oversized CSV rejected',()=>assert.equal(preflight('a'.repeat(26000)).ok,false));
+test('zero rows cannot pass',()=>assert.equal(preflight('invoice_id,amount,currency').ok,false));
+test('lowercase currency rejected',()=>assert.equal(preflight('invoice_id,amount,currency\nINV-4,3,myr').ok,false));
+test('empty amount rejected',()=>assert.equal(preflight('invoice_id,amount,currency\nINV-4,,MYR').ok,false));
+test('NaN rejected',()=>assert.equal(preflight('invoice_id,amount,currency\nINV-4,NaN,MYR').ok,false));

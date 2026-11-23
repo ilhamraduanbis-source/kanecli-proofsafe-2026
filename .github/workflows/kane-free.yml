@@ -1,0 +1,61 @@
+name: Genuine KaneCLI test — owner-confirmed FREE credits only
+on:
+  workflow_dispatch:
+    inputs:
+      public_url:
+        description: 'Public HTTPS URL serving THIS new repository'
+        type: string
+        required: true
+      owner_confirms_free_credits:
+        description: 'Free TestMu credits confirmed, no paid subscription'
+        type: boolean
+        required: true
+        default: false
+permissions: {contents: read}
+jobs:
+  kane:
+    if: github.event.inputs.owner_confirms_free_credits == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    env:
+      LT_USERNAME: ${{ secrets.LT_USERNAME }}
+      LT_ACCESS_KEY: ${{ secrets.LT_ACCESS_KEY }}
+      TEST_URL: ${{ inputs.public_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - run: npm test
+      - name: Free-only safety preflight
+        shell: bash
+        run: |
+          test -n "$LT_USERNAME" && test -n "$LT_ACCESS_KEY" || { echo 'NO_TESTMU_SECRETS';exit 1; }
+          case "$TEST_URL" in https://*) ;; *) echo 'HTTPS_REQUIRED';exit 1;; esac
+          if [[ "$TEST_URL" == *"/login"* ]];then exit 1;fi
+      - name: Install and authenticate official TestMu KaneCLI
+        shell: bash
+        run: |
+          npm install -g @testmuai/kane-cli --no-audit --no-fund
+          kane-cli login --username "$LT_USERNAME" --access-key "$LT_ACCESS_KEY" >/dev/null
+          kane-cli balance
+      - name: Run genuine browser agent once
+        shell: bash
+        run: |
+          mkdir -p evidence
+          set +e
+          kane-cli run 'Open ProofSafe QA. Before validation confirm Export is disabled. Run clean sample and verify PASS and 2 records. Load failing sample, validate and verify FAIL with detected issues. Reset and verify PASS again. No personal data, cards or purchases.' \
+            --url "$TEST_URL" --agent --headless --timeout 180 --max-steps 15 \
+            > evidence/kane-original.ndjson 2> evidence/kane-diagnostics.stderr
+          rc=$?
+          set -e
+          echo "GENUINE_KANE_EXIT=$rc"
+          test "$rc" -eq 0
+          python3 scripts/verify_kane.py evidence/kane-original.ndjson
+      - name: Store real original agent evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kane-authentic-evidence
+          path: evidence/
+          retention-days: 7
+          if-no-files-found: warn
