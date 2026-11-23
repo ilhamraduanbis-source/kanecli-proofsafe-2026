@@ -18,7 +18,7 @@ $('sample').addEventListener('click',()=>{$('csv').value=SAMPLE;reset();$('statu
 $('bad').addEventListener('click',()=>{$('csv').value=INVALID;reset();$('status').textContent='Failing synthetic case loaded. Select Validate locally.';});
 $('download').addEventListener('click',()=>{
  if(!last)return;
- const payload={...last,scope:'Local CSV QA only; zero claimed transactions',timestamp:new Date().toISOString()};
+ const payload={...last,source:'LOCAL_BROWSER',verifiedByKane:false,transactionSettled:false,scope:'Local CSV QA only; zero claimed transactions',timestamp:new Date().toISOString()};
  const url=URL.createObjectURL(new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}));const a=document.createElement('a');
  a.href=url;a.download='proofsafe-local-validation.json';a.click();
  setTimeout(()=>URL.revokeObjectURL(url),1000);

@@ -23,6 +23,20 @@ try:
   assert page.locator('#download').is_enabled()
   with page.expect_download() as d:page.get_by_role('button',name='Export reproducible JSON').click()
   assert d.value.suggested_filename=='proofsafe-local-validation.json'
+  # KaneCLI's first real run confirmed PASS/FAIL and reset, but did not
+  # inspect the exported JSON. This is the explicit feedback coverage gap.
+  from tempfile import TemporaryDirectory
+  import json
+  with TemporaryDirectory() as folder:
+   sample_path=Path(folder)/'valid.json'
+   d.value.save_as(str(sample_path))
+   exported=json.loads(sample_path.read_text())
+   assert exported['ok'] is True and exported['rows']==2
+   assert exported['source']=='LOCAL_BROWSER'
+   assert exported['verifiedByKane'] is False
+   assert exported['transactionSettled'] is False
+   assert 'input' not in exported
+   assert 'invoice_id' not in json.dumps(exported)
   page.get_by_role('button',name='Load failing case').click()
   assert page.locator('#download').is_disabled()
   page.get_by_role('button',name='Validate locally').click()
