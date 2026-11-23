@@ -21,3 +21,15 @@ The manual `kane-free.yml` workflow requires an owner-confirmed FREE TestMu bala
 
 ## Limits
 Simple comma splitting only: quoted commas/multiline values are unsupported. No remote upload, data storage, bank/wallet interaction, financial advice, fees or deposits. See [submission checklist](docs/SUBMISSION.md).
+
+## Post-agent genuine Kane verification
+
+The public Vercel deployment was updated after the agent's change at commit `489026de`. A **second original TestMu KaneCLI run** passed on that updated website: [GitHub Actions #45214209632](https://github.com/ilhamraduanbis-source/toyol-digital/actions/runs/45214209632). Kane confirmed that the export button became enabled after clean validation, a JSON download was offered, the failing case produced 3 issues and reset passed. Its original NDJSON is archived as artifact `14837054192`.
+
+The post-change GitHub CI [run #45213978552](https://github.com/ilhamraduanbis-source/kanecli-proofsafe-2026/actions/runs/45213978552) also passed: 10 unit tests and genuine Chromium checks, including parsing the downloaded JSON and verifying `source: LOCAL_BROWSER`, `verifiedByKane: false` and `transactionSettled: false`. Kane verified browser interactions and download availability; **the independent Chromium test**, not Kane, inspected the JSON contents. Do not conflate these.
+
+- [Public demo](https://kanecli-proofsafe-2026.vercel.app/)
+- [Kane feedback chronology](docs/KANE_FEEDBACK_20261123.md)
+- [Final submission copy](docs/FINAL_SUBMISSION_COPY.md)
+
+YouTube video publication, two real public launch posts and actual contest form submission are still pending. No prize or payment is claimed.

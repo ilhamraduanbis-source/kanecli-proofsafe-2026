@@ -24,3 +24,15 @@ An AI coding assistant examined the unmodified result and changed:
 Re-deploy this commit, execute a **second original KaneCLI test** against the new deployment, preserve the full original transcript, and record both run links. A local test is not a Kane retest.
 
 No credentials, payment, cash claim, or fabricated screenshot belongs in these records.
+
+## Genuine post-agent retest — PASSED
+
+- **Committed AI-assisted code change:** `489026de3d25265152d63d84054dd142c6d92d2a`.
+- **Redeployment:** Vercel released the above commit, and the Kane runner first verified `LOCAL_BROWSER` and `transactionSettled:false` were live.
+- **Authentic Kane after-agent run:** https://github.com/ilhamraduanbis-source/toyol-digital/actions/runs/45214209632
+- **Archive ID:** `14837054192`, `proofsafe-after-ai-genuine-kane-session`.
+- **Terminal result:** `KANE_AFTER_AI_EXIT=0`, `GENUINE_AFTER_KANE_STATUS passed`.
+- **What Kane actually did:** examined disabled Export before validation, checked clean PASS and enabled Export, clicked Export and confirmed a download was offered, checked invalid FAIL with exactly three issues, reset and verified PASS.
+- **What Kane did NOT claim:** it did not read or assert the contents of that downloaded JSON file. Independent Chromium CI in run https://github.com/ilhamraduanbis-source/kanecli-proofsafe-2026/actions/runs/45213978552 performed that specific assertion after the code change.
+
+The test sequence is **real Kane result → AI-assisted code/test change → Vercel redeploy → second real Kane result**. No bug was invented or disguised as a Kane discovery. No external payout is implied.
