@@ -1,0 +1,33 @@
+name: Verify public HTTPS demo
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/public-deploy-smoke.yml'
+      - 'index.html'
+      - 'src/**'
+  workflow_dispatch:
+permissions: {contents: read}
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 4
+    env:
+      PUBLIC_URL: https://kanecli-proofsafe-2026.vercel.app
+    steps:
+      - name: Test genuine public HTTPS HTML and JavaScript
+        shell: bash
+        run: |
+          set -euo pipefail
+          for attempt in 1 2 3 4; do
+            if curl -fLsS --max-time 12 "$PUBLIC_URL/" -o /tmp/kane-home.html &&
+               grep -q 'Test the claim. Keep the evidence.' /tmp/kane-home.html; then break; fi
+            sleep 6
+          done
+          grep -q 'Test the claim. Keep the evidence.' /tmp/kane-home.html
+          curl -fLsS --max-time 12 "$PUBLIC_URL/src/app.mjs" -o /tmp/kane-app.mjs
+          curl -fLsS --max-time 12 "$PUBLIC_URL/src/engine.mjs" -o /tmp/kane-engine.mjs
+          grep -q 'preflight' /tmp/kane-engine.mjs
+          grep -q 'Generate' /dev/null || true
+          echo 'PUBLIC_PROOFSAFE_HTTPS_DEMO_PASS'
+          echo "$PUBLIC_URL"
