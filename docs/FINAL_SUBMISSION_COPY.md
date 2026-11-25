@@ -1,4 +1,4 @@
-# KaneCLI Online Hackathon — prepared submission (NOT SUBMITTED)
+# KaneCLI Online Hackathon — submission received (owner-confirmed)
 
 ## GitHub project URL
 https://github.com/ilhamraduanbis-source/kanecli-proofsafe-2026
@@ -23,11 +23,14 @@ Code and evidence:
 Technology: standards-based browser JavaScript, GitHub Actions, Playwright/Chromium, TestMu AI KaneCLI. This is a prototype with a narrow CSV parser, not a production regulatory or payment service.
 
 ## YouTube demo URL
-**PENDING OWNER'S YOUTUBE UPLOAD**. Do not paste a local MP4 link if the competition mandates YouTube.
+https://youtu.be/p0rKEJ4f3T0
 
 ## Public post URLs
-1. **PENDING** genuine owner publication.
-2. **PENDING** second distinct genuine owner publication.
+1. https://kanecli-proofsafe-2026.vercel.app/blog/introducing-proofsafe.html
+2. https://kanecli-proofsafe-2026.vercel.app/blog/kanecli-feedback-loop.html
 
-## Final action
-Before **26 November 2026, 11:59 PM India Standard Time** (27 November 2026, 02:29 MYT), owner must log into https://www.kaneclihack.sh/ and use Step 4 Submit. Check organizer confirmation and save its official submission URL. Never represent this draft as completed submission.
+These are the two prepared project articles; the organizer's receipt confirms submission, not independent acceptance of each judging criterion.
+
+## Official submission receipt
+
+Owner provided a screenshot of the competition portal showing SUBMISSION RECEIVED, receipt KH-JP4SU3, first submitted 25 November 2026 at 8:55 PM IST (11:25 PM MYT). The submission was made through the official portal by the owner. The prize decision and payment remain unverified.
